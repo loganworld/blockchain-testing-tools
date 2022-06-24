@@ -1,0 +1,102 @@
+.App {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    margin: auto;
+}
+
+.App-logo {
+    height: 40vmin;
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
+}
+
+.App-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.divs {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.App-link {
+    color: #61dafb;
+}
+
+.space30 {
+    height: 30px;
+}
+
+.label {
+    width: 50px;
+}
+.value {
+    width: 80%;
+}
+
+.Panel {
+    padding: 10px;
+    text-align: left;
+    margin: 10px;
+    min-width: 700px;
+    border: solid 3px black;
+    overflow: auto;
+}
+
+.Center {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.AddressInput {
+    width: 100%;
+}
+
+.paramInput {
+    display: inline-block;
+    width: 40%;
+    margin: 1%;
+}
+
+.error {
+    color: red;
+}
+
+@keyframes App-logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .divs div {
+        width: 100%;
+    }
+}
