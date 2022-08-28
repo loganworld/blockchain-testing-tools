@@ -17,9 +17,9 @@ export const GenerateQrCode = () => {
     const generateQrCode = async () => {
         try {
             let parameters = {
-                'value': '1000000000000000', // (in WEI)
-                'gas': '45000', // can be also gasLimit
-                'gasPrice': '50000000000', // 50 wei
+                // 'value': '1000000000000000', // (in WEI)
+                // 'gas': '45000', // can be also gasLimit
+                // 'gasPrice': '50000000000', // 50 wei
             }
             const validParams = params.filter((param) => ["value", "gas", "gasPrice", "gasLimit", "number", "ethereum_address", "string"].includes(param.name))
             validParams.forEach((param) => { parameters = { ...parameters, [param.name]: param.value } })
@@ -137,23 +137,27 @@ export const DecordQrCode = () => {
         let contractParamsValues = []
         let txParams = {};
         if (!parsedUrl.function_name) txParams = { to: parsedUrl.target_address }
-        Object.keys(parameters).forEach(key => {
-            // transaction txParams
-            if (["value"].includes(key))
-                txParams = { ...txParams, "value": utils.parseUnits(parameters[key], 0) }
-            if (["gas", "gasPrice",].includes(key))
-                txParams = { ...txParams, "gasPrice": utils.parseUnits(parameters[key], 0) }
-            if (["gasLimit"].includes(key))
-                txParams = { ...txParams, [key]: parameters[key] }
-            // contract params
-            if (["number", "ethereum_address", "string"].includes(key)) {
-                contractParamsKeys.push(key);
-                contractParamsValues.push(parameters[key]);
-            }
-        })
+
+        console.log("parameters", parameters);
+        if (parameters)
+            Object.keys(parameters).forEach(key => {
+                // transaction txParams
+                if (["value"].includes(key))
+                    txParams = { ...txParams, "value": utils.parseUnits(parameters[key], 0) }
+                if (["gas", "gasPrice",].includes(key))
+                    txParams = { ...txParams, "gasPrice": utils.parseUnits(parameters[key], 0) }
+                if (["gasLimit"].includes(key))
+                    txParams = { ...txParams, [key]: parameters[key] }
+                // contract params
+                if (["number", "ethereum_address", "string"].includes(key)) {
+                    contractParamsKeys.push(key);
+                    contractParamsValues.push(parameters[key]);
+                }
+            })
         // generate abi
         let temp = 0;
         let abi = `function ${parsedUrl.function_name}(`
+
         contractParamsKeys.forEach((key) => {
             const type = {
                 "ethereum_address": "address",
@@ -162,9 +166,16 @@ export const DecordQrCode = () => {
             }
             abi += `${type[key]} param${temp++},`
         })
-        if (Number(txParams['value']) > 0)
+
+        if (contractParamsKeys.length == 0) {
+            if (Number(txParams['value']) > 0)
+                abi = [abi.slice(0, abi.length) + ") payable"];
+            else abi = [abi.slice(0, abi.length) + ")"]
+        }
+        else if (Number(txParams['value']) > 0)
             abi = [abi.slice(0, abi.length - 1) + ") payable"]
         else abi = [abi.slice(0, abi.length - 1) + ")"]
+
         return { abi, contractParamsValues, txParams }
     }
 
@@ -174,7 +185,7 @@ export const DecordQrCode = () => {
                 ethereum
             );
             const signer = await provider.getSigner();
-            console.log(parsedUrl);
+            console.log("makeTransaction", parsedUrl);
             let { abi, contractParamsValues, txParams } = getTypeParams(parsedUrl)
             if (parsedUrl.function_name) {
                 //call smart contract function
