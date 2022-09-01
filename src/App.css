@@ -100,3 +100,11 @@
         width: 100%;
     }
 }
+
+.button_panel {
+    text-align: center;
+}
+
+button {
+    margin: 5px;
+}

@@ -64,13 +64,42 @@ export const GenerateQrCode = () => {
         console.log("params", params);
     }, [params])
 
+    const ERC20Transfer = () => {
+        setFunctionName("transfer");
+        setParams([
+            { name: "ethereum_address", value: "" },
+            { name: "number", value: "" }
+        ])
+
+    }
+    const CoinTransfer = () => {
+        setFunctionName("");
+        setParams([
+            { name: "value", value: "" }
+        ])
+
+    }
+    const ERC721Transfer = () => {
+        setFunctionName("transferFrom");
+        setParams([
+            { name: "ethereum_address", value: "" },
+            { name: "ethereum_address", value: "" },
+            { name: "number", value: "" }
+        ])
+    }
+
     return (
         <Panel>
+            <div className="button_panel">
+                <button onClick={ERC20Transfer}> ERC20 Transfer</button>
+                <button onClick={CoinTransfer}> ETH Transfer</button>
+                <button onClick={ERC721Transfer}> NFT Transfer</button>
+            </div>
             <Center> EIP 831 encode</Center>
-            <div >
+            {/** <div >
                 <span className="label">QR code : </span>
                 <span className="value"> {url} </span>
-            </div>
+            </div>*/}
             <div >
                 <span className="label">Input contract address : </span>
                 <input className="AddressInput" value={toAddress} onChange={(e) => setToAddress(e.target.value)}></input>

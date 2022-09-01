@@ -11,14 +11,16 @@ function App() {
     return (
         <div className="App">
             <div className='space30'></div>
-            <Center> Test functions</Center>
+            <Center> EIP831 encoder </Center>
             <div className='divs'>
-                <CreatePanel />
-                <BalancePanel />
-                <SignerPanel />
-                <ActionPanel />
+                {/*
+                    <CreatePanel />
+                    <BalancePanel />
+                    <SignerPanel />
+                    <ActionPanel />
+                    <DecordQrCode />
+                */}
                 <GenerateQrCode />
-                <DecordQrCode />
             </div>
         </div>
     );
